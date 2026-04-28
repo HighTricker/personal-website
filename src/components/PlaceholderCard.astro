@@ -1,0 +1,42 @@
+---
+interface Props {
+  category: 'video' | 'program';
+}
+
+const { category } = Astro.props;
+
+const categoryConfig = {
+  video: {
+    label: '视频',
+    className: 'cat-video',
+    title: '视频作品',
+    description: '敬请期待',
+  },
+  program: {
+    label: '程序作品',
+    className: 'cat-program',
+    title: '程序作品',
+    description: '敬请期待',
+  },
+};
+
+const cfg = categoryConfig[category];
+---
+
+<article class="block border border-[var(--color-parchment)] rounded-2xl p-4 opacity-60">
+  <!-- 封面占位（16:9 比例 + 自己的圆角，柔和渐变）-->
+  <div class="aspect-video rounded-xl bg-gradient-to-br from-[var(--color-parchment)] to-[var(--color-cream)]"></div>
+
+  <!-- 内容区 -->
+  <div class="pt-4">
+    <h2 class="text-lg mb-2 leading-snug">{cfg.title}</h2>
+    <p class="text-sm text-[var(--color-charcoal)]/70 leading-relaxed mb-4 line-clamp-3">
+      {cfg.description}
+    </p>
+    <div class="flex items-center gap-2 text-xs">
+      <span class="text-[var(--color-charcoal)]/30">—</span>
+      <span class="text-[var(--color-charcoal)]/30">·</span>
+      <span class={`cat-text ${cfg.className}`}>{cfg.label}</span>
+    </div>
+  </div>
+</article>

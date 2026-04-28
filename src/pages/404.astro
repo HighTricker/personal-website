@@ -1,0 +1,25 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout
+  title="页面不存在"
+  description="这个页面不存在或已经移除。"
+>
+  <section class="max-w-[680px] mx-auto px-4 py-24 md:py-32 text-center">
+    <p class="text-7xl md:text-9xl mb-6 text-[var(--color-charcoal)]/25 leading-none">
+      404
+    </p>
+    <h1 class="text-2xl md:text-3xl mb-4">页面不存在</h1>
+    <p class="text-base md:text-lg text-[var(--color-charcoal)]/60 mb-10 leading-relaxed">
+      你访问的链接可能已经搬走或者从未存在。<br />
+      要不回到首页看看？
+    </p>
+    <a
+      href="/"
+      class="inline-block px-6 py-3 bg-[var(--color-amethyst)] text-white rounded-lg hover:opacity-90 transition-opacity no-underline"
+    >
+      回到首页 →
+    </a>
+  </section>
+</Layout>

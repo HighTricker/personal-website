@@ -1,0 +1,63 @@
+---
+import '../styles/global.css';
+import Navbar from '../components/Navbar.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description = "鲁家琪，借助AI时代的各类工具，表达自己，持续创造能让世界变得更好的价值。",
+  ogImage = SITE.assets.ogDefault,
+} = Astro.props;
+
+const pageTitle = title ? `${title} | ${SITE.name}` : SITE.name;
+const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url).href;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="canonical" href={Astro.url.href} />
+
+    <title>{pageTitle}</title>
+    <meta name="description" content={description} />
+
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:image" content={ogImageUrl} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- JSON-LD：让搜索引擎和 AI 抓取时识别这是「鲁家琪」的个人主页 -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Person",
+      name: SITE.name,
+      url: SITE.url,
+      image: new URL(SITE.assets.avatar, SITE.url).href,
+      email: SITE.email,
+      sameAs: [SITE.social.x, SITE.social.xiaohongshu]
+    })} />
+  </head>
+  <body class="min-h-screen flex flex-col">
+    <Navbar />
+    <main class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

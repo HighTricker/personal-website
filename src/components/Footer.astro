@@ -1,0 +1,28 @@
+---
+import { SITE } from '../data/site';
+---
+
+<footer class="border-t border-[var(--color-parchment)] mt-auto py-8">
+  <div class="max-w-[1200px] mx-auto px-4 text-center text-xs flex flex-wrap justify-center items-center gap-x-3 gap-y-1 text-[#a39e9a]">
+    <span>© {SITE.copyright.year} {SITE.copyright.holder}</span>
+    <span aria-hidden="true">·</span>
+    <a
+      href={SITE.beian.icpUrl}
+      target="_blank"
+      rel="noopener"
+      class="hover:text-[var(--color-charcoal)] transition-colors"
+    >
+      {SITE.beian.icp}
+    </a>
+    <span aria-hidden="true">·</span>
+    <a
+      href={SITE.beian.policeUrl}
+      target="_blank"
+      rel="noopener"
+      class="inline-flex items-center gap-1 hover:text-[var(--color-charcoal)] transition-colors"
+    >
+      <img src={SITE.assets.policeBadge} alt="" class="w-3 h-3" width="12" height="12" />
+      <span>{SITE.beian.police}</span>
+    </a>
+  </div>
+</footer>

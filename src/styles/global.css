@@ -1,0 +1,69 @@
+/* 霞鹜文楷 webfont — SIL OFL 1.1 (开源可商用) */
+@import url("https://cdn.jsdelivr.net/npm/lxgw-wenkai-webfont/lxgwwenkai-regular.css");
+@import "tailwindcss";
+
+@theme {
+  /* 字体（霞鹜文楷只有 Regular 单字重，中文层级靠字号 + 颜色） */
+  --font-sans: "LXGW WenKai", system-ui, serif;
+
+  /* === 主色板 === */
+  /* 注：2026-04-28 全站 accent 从紫色改为蓝色（所有者偏好）。变量名保留（Lavender / Amethyst），值已替换为浅蓝 / Apple Blue。 */
+  --color-mysteria: #1b1938;             /* 深紫保留（暂未使用，留给未来 hero） */
+  --color-charcoal: #292827;
+  --color-lavender: #bfdbfe;             /* 浅蓝（mark 高亮背景），原紫 #cbb7fb */
+  --color-amethyst: #0071e3;             /* Apple Buy Now Blue（链接 / hover 边框），原紫 #714cb6 */
+  --color-cream: #e9e5dd;
+  --color-parchment: #dcd7d3;
+
+  /* === 卡片类型分类色板（仅首页类型栏目使用）=== */
+  --color-cat-1: #fa6b2e;
+  --color-cat-2: #fff041;
+  --color-cat-3: #9ed42a;
+  --color-cat-4: #1cba48;
+  --color-cat-5: #0bb990;
+  --color-cat-6: #0a98e1;
+  --color-cat-7: #2c44d6;
+  --color-cat-8: #7a3aff;
+  --color-cat-9: #e63bcd;
+  --color-cat-10: #f83644;
+}
+
+/* 全局基础样式 */
+body {
+  font-family: var(--font-sans);
+  color: var(--color-charcoal);
+  background: #ffffff;
+}
+
+/* mark 高亮（首页 hero 用） */
+mark {
+  background: var(--color-lavender);
+  color: var(--color-charcoal);
+  padding: 0 4px;
+  border-radius: 4px;
+}
+
+/* 卡片分类文本（仅卡片日期后的彩色分类标签使用） */
+.cat-text {
+  font-weight: 500;
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 4px;
+  display: inline-block;
+  letter-spacing: 0.02em;
+}
+/* 文章：柠黄底 + 深字（柠黄太浅作字色不可读，反过来作底色 + 深字最清晰）*/
+.cat-article {
+  background: var(--color-cat-2);
+  color: var(--color-charcoal);
+}
+/* 视频：浅宝蓝底 + 宝蓝字（保留"彩色字"原意 + 增强对比）*/
+.cat-video {
+  background: rgba(44, 68, 214, 0.12);
+  color: var(--color-cat-7);
+}
+/* 程序：浅朱红底 + 朱红字（同上）*/
+.cat-program {
+  background: rgba(248, 54, 68, 0.12);
+  color: var(--color-cat-10);
+}

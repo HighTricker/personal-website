@@ -22,3 +22,17 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# editor temp
+*.swp
+
+# Windows
+Thumbs.db
+desktop.ini
+
+# === 私人数据防御规则（即使误复制进项目目录也会被忽略）===
+**/other.md
+**/真实数据文件/
+**/开发文件/
+**/服务器信息.txt
+
