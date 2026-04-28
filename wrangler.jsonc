@@ -1,0 +1,14 @@
+/**
+ * Cloudflare Workers 配置 — 静态资产模式（Static Assets）
+ * 用于让 `npx wrangler deploy` 把构建产物 dist/ 部署到 Cloudflare 的全球 CDN
+ *
+ * 文档：https://developers.cloudflare.com/workers/static-assets/
+ */
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "personal-website",
+  "compatibility_date": "2026-04-28",
+  "assets": {
+    "directory": "./dist"
+  }
+}
