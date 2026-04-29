@@ -1,6 +1,8 @@
 ---
 import Layout from '../../layouts/Layout.astro';
 import { getEntry, render } from 'astro:content';
+import photos from '../../data/photos.json';
+import PhotoLightbox from '../../components/PhotoLightbox.tsx';
 
 const entry = await getEntry('pages', 'en/about');
 if (!entry) {
@@ -17,6 +19,33 @@ const { title, description } = entry.data;
       <Content />
     </div>
   </article>
+
+  <!-- 照片墙（所有屏幕统一 3 列；浏览器原生 lazy load；说明保留中文）-->
+  <section class="max-w-[1200px] mx-auto px-4 pb-16">
+    <div class="grid grid-cols-3 gap-1 md:gap-1.5">
+      {photos.map(photo => (
+        <button
+          type="button"
+          data-photo-filename={photo.filename}
+          data-photo-caption={photo.caption}
+          data-photo-note={photo.note}
+          class="block aspect-square overflow-hidden bg-[var(--color-parchment)] cursor-pointer hover:opacity-80 transition-opacity"
+          aria-label={photo.caption}
+        >
+          <img
+            src={`/thumbs/${photo.filename.replace(/\.(jpe?g|png)$/i, '.webp')}`}
+            alt={photo.caption}
+            loading="lazy"
+            decoding="async"
+            class="w-full h-full object-cover"
+          />
+        </button>
+      ))}
+    </div>
+  </section>
+
+  <!-- React 岛屿：照片弹框（点击照片打开）-->
+  <PhotoLightbox client:idle photos={photos} />
 </Layout>
 
 <style>
