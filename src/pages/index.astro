@@ -53,10 +53,16 @@ const sorted = articles.sort(
 
 <style>
   .hero-section {
-    height: 480px;
+    height: calc(100vh - 64px);
+    height: calc(100dvh - 64px);
+    min-height: 480px;
   }
   @media (max-width: 768px) {
-    .hero-section { height: 380px; }
+    .hero-section {
+      height: calc(100vh - 56px);
+      height: calc(100dvh - 56px);
+      min-height: 380px;
+    }
   }
   /* Hero 高亮：相对父级字号大一档，深炭黑，字距收紧 */
   .hero-hl {
