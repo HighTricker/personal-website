@@ -1,0 +1,45 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import PlaceholderCard from '../../components/PlaceholderCard.astro';
+import { getCollection } from 'astro:content';
+import { t } from '../../i18n';
+
+const articles = await getCollection('articles', ({ data }) => !data.hidden);
+const sorted = articles.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+const i18n = t('en');
+---
+
+<Layout title={i18n.homePageTitle} locale="en">
+  <!-- Hero -->
+  <section class="max-w-[800px] mx-auto px-4 py-16 md:py-24 text-center">
+    <p class="text-3xl md:text-5xl mb-4 leading-tight text-[var(--color-charcoal)]/35">
+      Hi, I'm <span class="hero-hl">Lu Jiaqi</span>
+    </p>
+    <p class="text-xl md:text-2xl text-[var(--color-charcoal)]/35">
+      <span class="hero-hl">AI Engineer</span> & <span class="hero-hl">Creator</span>
+    </p>
+  </section>
+
+  <!-- 卡片网格 -->
+  <section class="max-w-[1200px] mx-auto px-4 py-8 pb-16">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {sorted.map(article => (
+        <ArticleCard article={article} locale="en" />
+      ))}
+      <PlaceholderCard category="video" locale="en" />
+      <PlaceholderCard category="program" locale="en" />
+    </div>
+  </section>
+</Layout>
+
+<style>
+  .hero-hl {
+    color: var(--color-charcoal);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    font-size: 1.2em;
+  }
+</style>

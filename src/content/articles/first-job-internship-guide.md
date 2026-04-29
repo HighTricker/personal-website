@@ -1,5 +1,6 @@
 ---
 title: 如何找到第一份工作（实习）
+title_en: "How to Land Your First Job (Internship)"
 slug: first-job-internship-guide
 date: 2022-10-11
 tags: ["求职", "实习", "学生时代"]

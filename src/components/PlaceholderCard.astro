@@ -1,22 +1,26 @@
 ---
+import { t, type Locale } from '../i18n';
+
 interface Props {
   category: 'video' | 'program';
+  locale?: Locale;
 }
 
-const { category } = Astro.props;
+const { category, locale = 'zh' } = Astro.props;
+const i18n = t(locale);
 
 const categoryConfig = {
   video: {
-    label: '视频',
+    label: i18n.card.video,
     className: 'cat-video',
-    title: '视频作品',
-    description: '敬请期待',
+    title: i18n.card.videoTitle,
+    description: i18n.card.comingSoon,
   },
   program: {
-    label: '程序作品',
+    label: i18n.card.program,
     className: 'cat-program',
-    title: '程序作品',
-    description: '敬请期待',
+    title: i18n.card.programTitle,
+    description: i18n.card.comingSoon,
   },
 };
 

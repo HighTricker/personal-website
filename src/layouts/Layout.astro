@@ -3,25 +3,40 @@ import '../styles/global.css';
 import Navbar from '../components/Navbar.astro';
 import Footer from '../components/Footer.astro';
 import { SITE } from '../data/site';
+import { t, getLocaleFromUrl, type Locale } from '../i18n';
 
 interface Props {
   title?: string;
   description?: string;
   ogImage?: string;
+  locale?: Locale;
 }
 
+const detectedLocale = getLocaleFromUrl(Astro.url);
 const {
   title,
-  description = "鲁家琪，借助AI时代的各类工具，表达自己，持续创造能让世界变得更好的价值。",
+  description,
   ogImage = SITE.assets.ogDefault,
+  locale = detectedLocale,
 } = Astro.props;
 
-const pageTitle = title ? `${title} | ${SITE.name}` : SITE.name;
+const i18n = t(locale);
+const finalDescription = description ?? i18n.defaultDescription;
+const pageTitle = title ? `${title} | ${i18n.siteName}` : i18n.siteName;
 const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url).href;
+
+// hreflang URLs（双语对应路径）
+const path = Astro.url.pathname;
+const zhPath = locale === 'zh' ? path : (path.replace(/^\/en/, '') || '/');
+const enPath = locale === 'en' ? path : (path === '/' ? '/en/' : `/en${path}`);
+const baseUrl = Astro.site ?? Astro.url;
+const zhUrl = new URL(zhPath, baseUrl).href;
+const enUrl = new URL(enPath, baseUrl).href;
+const canonicalUrl = locale === 'zh' ? zhUrl : enUrl;
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang={i18n.htmlLang}>
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -29,24 +44,29 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url).href;
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
     <link rel="icon" type="image/png" sizes="192x192" href="/favicon-192.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-    <link rel="canonical" href={Astro.url.href} />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" hreflang="zh-CN" href={zhUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={zhUrl} />
 
     <title>{pageTitle}</title>
-    <meta name="description" content={description} />
+    <meta name="description" content={finalDescription} />
 
     <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={description} />
+    <meta property="og:description" content={finalDescription} />
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={Astro.url.href} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:locale" content={i18n.ogLocale} />
     <meta property="og:image" content={ogImageUrl} />
 
     <meta name="twitter:card" content="summary_large_image" />
 
-    <!-- JSON-LD：让搜索引擎和 AI 抓取时识别这是「鲁家琪」的个人主页 -->
+    <!-- JSON-LD：让搜索引擎和 AI 抓取时识别这是「鲁家琪 / Lu Jiaqi」的个人主页 -->
     <script type="application/ld+json" set:html={JSON.stringify({
       "@context": "https://schema.org",
       "@type": "Person",
-      name: SITE.name,
+      name: '鲁家琪',
+      alternateName: 'Lu Jiaqi',
       url: SITE.url,
       image: new URL(SITE.assets.avatar, SITE.url).href,
       email: SITE.email,
@@ -54,10 +74,10 @@ const ogImageUrl = new URL(ogImage, Astro.site ?? Astro.url).href;
     })} />
   </head>
   <body class="min-h-screen flex flex-col">
-    <Navbar />
+    <Navbar locale={locale} />
     <main class="flex-1">
       <slot />
     </main>
-    <Footer />
+    <Footer locale={locale} />
   </body>
 </html>

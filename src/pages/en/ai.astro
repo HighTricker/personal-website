@@ -1,0 +1,156 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getEntry, render } from 'astro:content';
+
+const entry = await getEntry('pages', 'en/ai');
+if (!entry) {
+  throw new Error('en/ai.md not found in src/content/pages/');
+}
+const { Content } = await render(entry);
+const { title, description } = entry.data;
+---
+
+<Layout title={title} description={description} locale="en">
+  <article class="max-w-[680px] mx-auto px-4 py-12 md:py-16">
+    <h1 class="text-3xl md:text-4xl mb-8 text-center">{title}</h1>
+    <div class="article-content">
+      <Content />
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .article-content :global(p) {
+    line-height: 1.85;
+    margin: 1.2em 0;
+    font-size: 1.0625rem;
+  }
+  .article-content :global(h2) {
+    font-size: 1.5rem;
+    margin: 2em 0 0.6em;
+    line-height: 1.3;
+  }
+  .article-content :global(h3) {
+    font-size: 1.25rem;
+    margin: 1.5em 0 0.5em;
+  }
+  .article-content :global(a) {
+    color: var(--color-amethyst);
+    text-decoration: underline;
+  }
+  .article-content :global(strong) {
+    font-weight: bold;
+  }
+  .article-content :global(blockquote) {
+    border-left: 4px solid var(--color-lavender);
+    padding-left: 1em;
+    margin: 1.2em 0;
+    opacity: 0.85;
+  }
+  .article-content :global(ul),
+  .article-content :global(ol) {
+    margin: 1em 0;
+    padding-left: 1.5em;
+  }
+  .article-content :global(li) {
+    margin: 0.4em 0;
+    line-height: 1.7;
+  }
+  .article-content :global(code) {
+    font-family: ui-monospace, SFMono-Regular, monospace;
+    background: rgba(220, 215, 211, 0.5);
+    padding: 0.1em 0.4em;
+    border-radius: 4px;
+    font-size: 0.92em;
+    word-break: break-all;
+  }
+
+  /* 代码块 + 复制按钮 */
+  .article-content :global(pre) {
+    position: relative;
+    background: #f5f2ec;
+    border: 1px solid var(--color-parchment-border);
+    border-radius: 8px;
+    padding: 14px 60px 14px 14px;
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-size: 0.92em;
+    line-height: 1.6;
+    margin: 1.2em 0;
+  }
+  .article-content :global(pre code) {
+    background: transparent;
+    padding: 0;
+    font-size: inherit;
+    word-break: break-all;
+  }
+  .article-content :global(.copy-btn) {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    font-family: inherit;
+    font-size: 12px;
+    padding: 4px 10px;
+    border: 1px solid var(--color-parchment-border);
+    background: white;
+    color: var(--color-charcoal);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.15s;
+    opacity: 0.85;
+  }
+  .article-content :global(.copy-btn:hover) {
+    opacity: 1;
+    background: var(--color-parchment);
+  }
+  .article-content :global(.copy-btn.copied) {
+    background: var(--color-amethyst);
+    color: white;
+    border-color: var(--color-amethyst);
+  }
+
+  @media (min-width: 768px) {
+    .article-content :global(p),
+    .article-content :global(li) {
+      font-size: 1.375rem;
+    }
+    .article-content :global(h2) {
+      font-size: 2rem;
+    }
+    .article-content :global(h3) {
+      font-size: 1.625rem;
+    }
+    .article-content :global(pre) {
+      font-size: 1.0625rem;
+    }
+  }
+</style>
+
+<script>
+  // 给 .article-content 内的 <pre> 加复制按钮
+  document.querySelectorAll('.article-content pre').forEach((pre) => {
+    if (pre.querySelector('.copy-btn')) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'copy-btn';
+    btn.textContent = 'Copy';
+    btn.addEventListener('click', () => {
+      const code = pre.querySelector('code');
+      if (!code) return;
+      const text = code.textContent || '';
+      navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        window.setTimeout(() => {
+          btn.textContent = 'Copy';
+          btn.classList.remove('copied');
+        }, 1500);
+      }).catch(() => {
+        btn.textContent = 'Failed';
+        window.setTimeout(() => { btn.textContent = 'Copy'; }, 1500);
+      });
+    });
+    pre.appendChild(btn);
+  });
+</script>

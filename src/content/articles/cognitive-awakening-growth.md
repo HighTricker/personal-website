@@ -1,5 +1,6 @@
 ---
 title: 从《认知觉醒》看个人成长
+title_en: Personal Growth Through Cognitive Awakening
 slug: cognitive-awakening-growth
 date: 2025-08-31
 tags: ["读书笔记", "个人成长", "反思"]

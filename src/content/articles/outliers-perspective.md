@@ -1,5 +1,6 @@
 ---
 title: 《异类》从另一个角度看待成功
+title_en: "Outliers: A Different Lens on Success"
 slug: outliers-perspective
 date: 2025-06-10
 tags: ["读书笔记", "个人成长", "思考"]

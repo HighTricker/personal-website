@@ -1,10 +1,18 @@
 ---
 import { SITE } from '../data/site';
+import { t, type Locale } from '../i18n';
+
+interface Props {
+  locale?: Locale;
+}
+
+const { locale = 'zh' } = Astro.props;
+const i18n = t(locale);
 ---
 
 <footer class="border-t border-[var(--color-parchment)] mt-auto py-8">
   <div class="max-w-[1200px] mx-auto px-4 text-center text-xs flex flex-wrap justify-center items-center gap-x-3 gap-y-1 text-[#a39e9a]">
-    <span>© {SITE.copyright.year} {SITE.copyright.holder}</span>
+    <span>© {SITE.copyright.year} {i18n.copyrightHolder}</span>
     <span aria-hidden="true">·</span>
     <a
       href={SITE.beian.icpUrl}
